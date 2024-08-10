@@ -4,14 +4,16 @@ namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\Route;
 
-Route::get('/page', function(){
-    return view('page');
-});
+// Route::get('/page', function(){
+//     return view('page');
+// });
 
 // Jika user belum diaktifkan
 Route::get('dashboard/profile/activated', function(){
     return view('profile.is_active');
 })->middleware('auth')->name('not_active');
+
+Route::get('/{slug}', [LinkController::class, 'show'])->name('links.show');
 
 // Route utama
 Route::prefix('dashboard')->middleware(['auth', 'active'])->group(function () {
@@ -174,6 +176,26 @@ Route::prefix('dashboard')->middleware(['auth', 'active'])->group(function () {
             ->name('options.update');
     });
 
+    // links route
+    Route::controller(LinkController::class)->prefix('links')->group(function(){
+        Route::get('/', 'index')
+            ->middleware('can:read-links')
+            ->name('links');
+
+        Route::get('/create', 'create')
+            ->middleware('can:create-links')
+            ->name('links.create');
+
+        Route::post('/create', 'store')
+            ->middleware('can:create-links')
+            ->name('links.store');
+        
+        Route::put('/', 'update')
+            ->middleware('can:update-links')
+            ->name('links.update');
+    });
+
+   
 });
 
 require __DIR__.'/auth.php';

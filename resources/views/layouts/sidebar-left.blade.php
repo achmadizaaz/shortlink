@@ -4,14 +4,19 @@
         <div id="sidebar-menu">
             <!-- Left Menu Start -->
             <ul class="metismenu list-unstyled" id="side-menu">
-                <li class="menu-title" data-key="t-menu">Menu</li>
-
                 <li>
                     <a href="{{ route('dashboard') }}">
                         <i class="bi bi-house-door"></i>
                         <span data-key="t-dashboard">Dashboard</span>
                     </a>
                 </li>
+                <li>
+                    <a href="{{ route('links') }}">
+                        <i class="bi bi-link"></i>
+                        <span data-key="t-link">Links</span>
+                    </a>
+                </li>
+
                 @can('read-users')
                 <li class="menu-title" data-key="t-components">Management User</li>
                 <li class="{{ request()->routeIs('users.*') ? 'mm-active' : '' }}">
